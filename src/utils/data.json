@@ -1,0 +1,162 @@
+{
+    "data": {
+        "customerDetails": {
+            "firstName": "Noman",
+            "lastName": "Alam",
+            "email": "nomanalamty@gmail.com",
+            "phoneNumber": "+92 334 2989198"
+        },
+        "serviceFees": {
+            "baseServiceFee": 0,
+            "eveningServiceFee": 0,
+            "morningServiceFee": 1600,
+            "total": 1600
+          
+        },
+        "_id": "6964e35b63cf0b9a1c9bd924",
+        "city": "Karachi",
+        "deliveryAddress": "Karachi, pakistan",
+        "deliveryLat": null,
+        "deliveryLong": null,
+        "deliveryDate": "2026-01-13T00:00:00.000Z",
+        "deliveryTime": "02:00",
+        "pickupAddress": "Karachi, pakistan",
+        "pickupDate": "2026-01-15T00:00:00.000Z",
+        "pickupTime": "05:00",
+        "rentalItems": [
+            {
+                "productId": {
+                    "serviceFeeSettings": {
+                        "isServiceFeeEnabled": false,
+                        "serviceFee": 0,
+                        "isEveningServiceFeeEnabled": false,
+                        "eveningServiceFee": 0,
+                        "eveningTimeWindow": "19:00",
+                        "isMorningServiceFeeEnabled": false,
+                        "morningTimeWindow": "01:00",
+                        "morningServiceFee": 0,
+                        "isServiceFeeAlwaysIncluded": false
+                    },
+                    "_id": "695d1fc92fd8f0f191a6fae6",
+                    "name": "Inflatable Party Tent 4x4",
+                    "category": "695c2e4cf1d1b1493f94681c",
+                    "description": "Maak uw feest weerbestendig en elegant met onze 6×3 meter (18 m²) partytent. Deze tent is gebouwd met stevige stalen buizen en sterke koppelstukken en is voorzien van een waterdicht dakzeil en optionele zijwanden met ramen of deuren. Hij is supersnel op te zetten, compact te vervoeren en wordt geleverd met haringen en scheerlijnen voor extra veiligheid. U kunt hem eenvoudig uitbreiden met verlichting, heaters of statafels om de perfecte evenementenruimte te creëren. Ideaal voor verjaardagen, tuinfeesten, bedrijfsevenementen en bruiloften. Bezorging en installatie mogelijk in uw regio - voor boekingen of beschikbaarheid kunt u ons een bericht sturen via WhatsApp: 0627137109 of het offerteformulier invullen. Transformeer elke gelegenheid in een stijlvol, comfortabel en weerbestendig feest met onze 6×3 meter partytent (18 m²). Deze tent is ontworpen voor zowel privé- als zakelijke evenementen en combineert kracht, elegantie en gemak, zodat uw gasten ongeacht het weer van het evenement kunnen genieten.",
+                    "quantity": 12,
+                    "pricePerDay": 150,
+                    "warehouseLocation": "Warehouse A, Section 2",
+                    "lat": 52.365,
+                    "long": 4.902,
+                    "images": [
+                        "https://res.cloudinary.com/dd1z0hkdl/image/upload/v1767772425/lvmkzykcac2bkjtckltm.png",
+                        "https://res.cloudinary.com/dd1z0hkdl/image/upload/v1767772537/f36eejf83dgw98vrnqev.jpg",
+                        "https://res.cloudinary.com/dd1z0hkdl/image/upload/v1767772539/m44awkuv0hril82vujzp.jpg",
+                        "https://res.cloudinary.com/dd1z0hkdl/image/upload/v1767772539/ponfmc9q9czee9juhv1w.jpg"
+                    ],
+                    "isAvailable": true,
+                    "createdAt": "2026-01-06T14:44:25.111Z",
+                    "updatedAt": "2026-01-12T07:46:06.588Z",
+                    "productId": "PRD-00003",
+                    "__v": 0,
+                    "quantityBooked": 21
+                },
+                "productName": "Inflatable Party Tent 4x4",
+                "quantity": 2,
+                "pricePerDay": 150,
+                "rentalDuration": 2,
+                "totalPrice": 600,
+                "_id": "6964e35b63cf0b9a1c9bd925"
+            },
+            {
+                "productId": {
+                    "serviceFeeSettings": {
+                        "isServiceFeeEnabled": true,
+                        "serviceFee": 400,
+                        "isEveningServiceFeeEnabled": true,
+                        "eveningServiceFee": 600,
+                        "eveningTimeWindow": "19:00",
+                        "isMorningServiceFeeEnabled": true,
+                        "morningTimeWindow": "01:00",
+                        "morningServiceFee": 800,
+                        "isServiceFeeAlwaysIncluded": false
+                    },
+                    "_id": "695d1fc32fd8f0f191a6fae0",
+                    "name": "Party Tent 5x10m",
+                    "category": "695c2e4cf1d1b1493f94681c",
+                    "description": "Medium-sized party tent for events up to 50 people. Easy to set up and dismantle.",
+                    "quantity": 8,
+                    "pricePerDay": 300,
+                    "warehouseLocation": "Warehouse B, Section 1",
+                    "lat": 52.37,
+                    "long": 4.9,
+                    "images": [
+                        "https://example.com/images/party-tent.jpg"
+                    ],
+                    "isAvailable": true,
+                    "createdAt": "2026-01-06T14:44:19.973Z",
+                    "updatedAt": "2026-01-12T07:46:06.697Z",
+                    "productId": "PRD-00002",
+                    "__v": 0,
+                    "quantityBooked": 5
+                },
+                "productName": "Party Tent 5x10m",
+                "quantity": 2,
+                "pricePerDay": 300,
+                "rentalDuration": 2,
+                "totalPrice": 1200,
+                "_id": "6964e35b63cf0b9a1c9bd926"
+            },
+            {
+                "productId": {
+                    "serviceFeeSettings": {
+                        "isServiceFeeEnabled": false,
+                        "serviceFee": 0,
+                        "isEveningServiceFeeEnabled": false,
+                        "eveningServiceFee": 0,
+                        "eveningTimeWindow": "19:00",
+                        "isMorningServiceFeeEnabled": false,
+                        "morningTimeWindow": "01:00",
+                        "morningServiceFee": 0,
+                        "isServiceFeeAlwaysIncluded": false
+                    },
+                    "_id": "695d1fd52fd8f0f191a6faf8",
+                    "name": "Folding Chairs (Set of 10)",
+                    "category": "695c2e77f1d1b1493f946820",
+                    "description": "Comfortable folding chairs with padded seats. Stackable for easy transport.",
+                    "quantity": 50,
+                    "pricePerDay": 15,
+                    "warehouseLocation": "Warehouse A, Section 1",
+                    "lat": 52.368,
+                    "long": 4.903,
+                    "images": [
+                        "https://example.com/images/folding-chairs.jpg"
+                    ],
+                    "isAvailable": true,
+                    "createdAt": "2026-01-06T14:44:37.961Z",
+                    "updatedAt": "2026-01-12T07:03:23.463Z",
+                    "productId": "PRD-00006",
+                    "__v": 0,
+                    "quantityBooked": 3
+                },
+                "productName": "Folding Chairs (Set of 10)",
+                "quantity": 3,
+                "pricePerDay": 15,
+                "rentalDuration": 2,
+                "totalPrice": 90,
+                "_id": "6964e35b63cf0b9a1c9bd927"
+            }
+        ],
+        "includeServiceFee": false,
+        "subtotal": 1890,
+        "transportCost": 0,
+        "distance": 0,
+        "total": 3490,
+        "status": "Completed",
+        "paymentStatus": "Paid",
+        "orderId": "#176821948233826",
+        "createdAt": "2026-01-12T12:04:43.648Z",
+        "updatedAt": "2026-01-12T12:09:58.910Z",
+        "__v": 0
+    },
+    "status": "success",
+    "message": "Order retrieved successfully"
+}
