@@ -81,6 +81,7 @@ const OrderDetailsPage = () => {
       : "---",
     pickupTime: selectedOrder?.pickupTime || "---",
     status: selectedOrder?.status || "Planned",
+    notes: selectedOrder?.notes || "---",
   };
 
   const handleAddAdminNotesFunction = (note) => {

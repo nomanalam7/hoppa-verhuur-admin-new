@@ -111,6 +111,9 @@ const ClientDetails = ({ clientData }) => {
         <Grid item size={{ xs: 12, md: 6 }}>
           <DetailItem label="Aanmaakdatum" value={moment(clientData.createdAt).format("DD-MM-YYYY")} />
         </Grid>
+        <Grid item size={{ xs: 12, md: 12 }}>
+          <DetailItem label="Notities" value={clientData.notes} />
+        </Grid>
       </Grid>
     </Box>
   );
