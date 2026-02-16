@@ -73,12 +73,14 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
 
   // Helper function to calculate price with VAT
   const calculatePriceWithVat = useCallback((price) => {
+    console.log(price ,"priceccccccccccccccccccccccccccccccccc")
     if (!price || price === "") return null;
   
     const priceNum = parseFloat(price);
     if (isNaN(priceNum) || priceNum <= 0) return null;
   
-    const vatPercentage = getVatPercentage(); // 21
+    const vatPercentage = getVatPercentage();
+    console.log(vatPercentage ,"vatPercentageccccccccccccccccccccccccccccccccc")
   
     return priceNum * (1 + vatPercentage / 100);
   }, [getVatPercentage]);
@@ -240,9 +242,17 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
               type="number"
               placeholder="10"
               value={formData.quantityAvailable}
-              onChange={(e) =>
-                handleInputChange("quantityAvailable", Math.max(0, parseInt(e.target.value) || 0))
-              }
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "" || value === null || value === undefined) {
+                  handleInputChange("quantityAvailable", "");
+                } else {
+                  const numValue = parseInt(value, 10);
+                  if (!isNaN(numValue) && numValue >= 0) {
+                    handleInputChange("quantityAvailable", numValue);
+                  }
+                }
+              }}
               error={!!errors.quantityAvailable}
               helperText={errors.quantityAvailable}
               disabled={isSubmitting}
@@ -257,7 +267,17 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
               type="number"
               placeholder="18.75"
               value={formData.pricePerDay}
-              onChange={(e) => handleInputChange("pricePerDay", Math.max(0, parseFloat(e.target.value) || 0))}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "" || value === null || value === undefined) {
+                  handleInputChange("pricePerDay", "");
+                } else {
+                  const numValue = parseFloat(value);
+                  if (!isNaN(numValue) && numValue >= 0) {
+                    handleInputChange("pricePerDay", numValue);
+                  }
+                }
+              }}
               error={!!errors.pricePerDay}
               helperText={errors.pricePerDay}
               disabled={isSubmitting}
@@ -454,9 +474,17 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
                     type="number"
                     placeholder="500"
                     value={formData.baseService}
-                    onChange={(e) =>
-                      handleInputChange("baseService", e.target.value)
-                    }
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || value === null || value === undefined) {
+                        handleInputChange("baseService", "");
+                      } else {
+                        const numValue = parseFloat(value);
+                        if (!isNaN(numValue) && numValue >= 0) {
+                          handleInputChange("baseService", numValue);
+                        }
+                      }
+                    }}
                     error={!!errors.baseService}
                     helperText={errors.baseService}
                     disabled={isSubmitting}
@@ -522,12 +550,17 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
                           type="number"
                           placeholder="700"
                           value={formData.eveningServiceFee}
-                          onChange={(e) =>
-                            handleInputChange(
-                              "eveningServiceFee",
-                              e.target.value
-                            )
-                          }
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "" || value === null || value === undefined) {
+                              handleInputChange("eveningServiceFee", "");
+                            } else {
+                              const numValue = parseFloat(value);
+                              if (!isNaN(numValue) && numValue >= 0) {
+                                handleInputChange("eveningServiceFee", numValue);
+                              }
+                            }
+                          }}
                           error={!!errors.eveningServiceFee}
                           helperText={errors.eveningServiceFee}
                           disabled={isSubmitting}
@@ -614,12 +647,17 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
                           type="number"
                           placeholder="600"
                           value={formData.morningServiceFee}
-                          onChange={(e) =>
-                            handleInputChange(
-                              "morningServiceFee",
-                              e.target.value
-                            )
-                          }
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === "" || value === null || value === undefined) {
+                              handleInputChange("morningServiceFee", "");
+                            } else {
+                              const numValue = parseFloat(value);
+                              if (!isNaN(numValue) && numValue >= 0) {
+                                handleInputChange("morningServiceFee", numValue);
+                              }
+                            }
+                          }}
                           error={!!errors.morningServiceFee}
                           helperText={errors.morningServiceFee}
                           disabled={isSubmitting}

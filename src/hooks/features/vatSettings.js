@@ -37,12 +37,10 @@ const useVatTransportSettings = () => {
   }, [setVatSettings]);
 
   useEffect(() => {
-    // If we don't have VAT settings in store, fetch from API
     if (!vatSettings) {
       fetchVatTransportSettings();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run on mount
+  }, []);
 
   const updateVatTransportSettings = useCallback(
     async (payload) => {

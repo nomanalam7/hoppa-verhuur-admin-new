@@ -2,7 +2,7 @@ import axios from "axios";
 import useUserStore from "../zustand/useUserStore";
 import { showModal } from "../utils/modal";
 
-// export const baseUrl = "https://9zm5wcv8-6003.asse.devtunnels.ms/api/";
+// export const baseUrl = "http://localhost:6003/api/";
 export const baseUrl = "https://hoppa-verhuur-525e3417ae8e.herokuapp.com/api/";
 
 

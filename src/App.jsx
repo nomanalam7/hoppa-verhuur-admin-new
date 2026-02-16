@@ -8,11 +8,20 @@ import OrderDetailsPage from "./app/admin/orderDetails";
 import { AuthProtectedLayout, ProtectedLayout } from "./routes/RoutesLayout";
 import SettingsPage from "./app/admin/settings";
 import NotificationsPage from "./app/admin/notifications";
+import useVatTransportSettings from "./hooks/features/vatSettings";
+
+// Global component to fetch VAT settings on every reload
+const VatSettingsInitializer = () => {
+  useVatTransportSettings();
+  return null;
+};
+
 function App() {
   return (
     <ErrorDialogProvider>
       <SuccessDialogProvider>
         <BrowserRouter>
+          <VatSettingsInitializer />
           <Routes>
             <Route element={<AuthProtectedLayout />}>
               {AUTH_ROUTES?.map((route) => (
