@@ -6,6 +6,7 @@ import {
 import { useSuccessDialog } from "../../lib/context/successDialogContext";
 import { useErrorDialog } from "../../lib/context/errorDialogContext";
 import useVatStore from "../../zustand/useVatStore";
+import useUserStore from "../../zustand/useUserStore";
 
 const isSuccessStatus = (status) => status >= 200 && status < 300;
 
@@ -15,6 +16,7 @@ const useVatTransportSettings = () => {
   const { showSuccess } = useSuccessDialog();
   const { showError } = useErrorDialog();
   const { vatSettings, setVatSettings } = useVatStore();
+  const { user } = useUserStore();
 
   const fetchVatTransportSettings = useCallback(async () => {
     try {
@@ -37,10 +39,12 @@ const useVatTransportSettings = () => {
   }, [setVatSettings]);
 
   useEffect(() => {
-    if (!vatSettings) {
+    // Always fetch VAT settings when user is logged in (on every reload)
+    if (user) {
       fetchVatTransportSettings();
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]); // Run when user changes or on mount
 
   const updateVatTransportSettings = useCallback(
     async (payload) => {

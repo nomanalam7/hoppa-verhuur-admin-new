@@ -10,7 +10,7 @@ import SettingsPage from "./app/admin/settings";
 import NotificationsPage from "./app/admin/notifications";
 import useVatTransportSettings from "./hooks/features/vatSettings";
 
-// Global component to fetch VAT settings on every reload
+// Global component to fetch VAT settings on every reload (only when user is logged in)
 const VatSettingsInitializer = () => {
   useVatTransportSettings();
   return null;
