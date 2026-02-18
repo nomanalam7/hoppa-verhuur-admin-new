@@ -89,7 +89,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
         id: x.productId,
         product: x.productName || "-",
         qty: x.quantity,
-        price: x.pricePerDay,
+        price: formatNLCurrency(x.pricePerDay),
         rentalDuration: x.rentalDuration,
         _original: x,
       };
