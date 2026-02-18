@@ -117,12 +117,7 @@ export default function ReportsPage() {
       {
         id: 3,
         icon: revenueIcon,
-        count: stats.totalRevenueExclVAT
-          ? `€${Number(stats.totalRevenueExclVAT).toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}`
-          : "€0.00",
+        count:  formatNLCurrency(stats?.totalRevenueExclVAT) || 0,
         label: "Totale Omzet (Excl. BTW)",
         iconBgColor: "#FFF4E6",
         iconColor: "#F97316",
@@ -159,12 +154,7 @@ export default function ReportsPage() {
       ,
       priceVat: formatNLCurrency(order.inclVat), // Not in API response
       priceExVat: formatNLCurrency(order.exclVat), // Not in API response
-      total: order.total
-        ? `€${Number(order.total).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}`
-        : "€0.00",
+      total: formatNLCurrency(order?.total) || 0,
       status: order.status || "N/A",
       originalData: order,
     }));
