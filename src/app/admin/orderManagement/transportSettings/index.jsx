@@ -73,7 +73,7 @@ const TransportSettingDrawer = forwardRef((props, ref) => {
             placeholder="0.75"
             value={deliveryRate}
             onChange={(e) => {
-              const value = parseFloat(e.target.value); 
+              const value = parseFloat(e.target.value);
               if (!isNaN(value) && value >= 0) {        // negative value ya invalid number block kare
                 setDeliveryRate(value);
               } else if (e.target.value === '') {       // input clear karne par allow kare
@@ -95,7 +95,7 @@ const TransportSettingDrawer = forwardRef((props, ref) => {
             </Typography>
           )}
 
-          <Box
+          {/* <Box
             sx={{
               backgroundColor: "#F3F4F6",
               padding: 2,
@@ -117,7 +117,29 @@ const TransportSettingDrawer = forwardRef((props, ref) => {
                 {(calculatePriceWithVat(deliveryRate) * 15).toFixed(2)} (retour)
               </Typography>
             )}
+          </Box> */}
+
+
+          <Box
+            sx={{
+              backgroundColor: "#F3F4F6",
+              padding: 2,
+              borderRadius: 1,
+              mt: 2,
+            }}
+          >
+            <Typography fontSize="12px" color="#374151">
+              <strong>Let op:</strong> De enkele reisafstand wordt vermenigvuldigd met 4
+              om de totale afstand te berekenen. Bijvoorbeeld, als de enkele reisafstand
+              10 km is, dan wordt de totale afstand 40 km (10 × 4).
+              Als er 10 km gratis levering van toepassing is, wordt deze 10 km
+              afgetrokken van de totale berekende afstand. De resterende afstand
+              wordt gebruikt voor het berekenen van de bezorgkosten.
+            </Typography>
           </Box>
+
+
+
         </Box>
 
         <Box>
@@ -142,9 +164,9 @@ const TransportSettingDrawer = forwardRef((props, ref) => {
             disabled={isLoading || isSaving}
           />
 
-          <Typography fontSize="12px" color="#6B7280" mt={1}>
-            Opmerking: Gratis bezorging geldt voor alle klanten binnen de
-            ingevoerde KM-straal.
+          <Typography fontSize="12px" color="#374151" mt={1}>
+            <strong>Let op:</strong> Gratis levering is altijd van toepassing
+            op alle klanten binnen de ingevoerde kilometerstraal.
           </Typography>
         </Box>
 

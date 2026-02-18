@@ -47,7 +47,8 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
     morningServiceFee: 0,
   };
   const transportCost = order?.transportCost || 0;
-  const distance = order?.distance || 0;
+  const distance = order?.distance.toFixed(2) || 0;
+  const originalDistance = order?.originalDistance.toFixed(2) || 0;
 
   const tableHeader = [
     {
@@ -95,238 +96,246 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
     });
   }, [rentalItems]);
 
-const updateOrderRentalItems = async (nextItems) => {
-  if (!order?._id || typeof onUpdateOrder !== "function") {
-    setRentalItems(nextItems);
-    return;
-  }
-  const payload = { rentalItems: buildUpdatePayload(nextItems) };
-  const res = await onUpdateOrder(order._id, payload);
-};
-
-const handleAddConfirm = async (newItems) => {
-  console.log(newItems, "newwwwwwwwwwwwwwwww");
-  const next = [...rentalItems];
-  newItems?.forEach((x) => {
-    const idx = next.findIndex(
-      (i) => String(i.productId) === String(x.productId)
-    );
-    if (idx >= 0) {
-      next[idx] = {
-        ...next[idx],
-        quantity:
-          safeNumber(next[idx].quantity, 0) + safeNumber(x.quantity, 0),
-        pricePerDay: safeNumber(x.pricePerDay, next[idx].pricePerDay),
-      };
-    } else {
-      next.push({
-        productId: x.productId,
-        productName: x.productName,
-        quantity: safeNumber(x.quantity, 0),
-        pricePerDay: safeNumber(x.pricePerDay, 0),
-      });
+  const updateOrderRentalItems = async (nextItems) => {
+    if (!order?._id || typeof onUpdateOrder !== "function") {
+      setRentalItems(nextItems);
+      return;
     }
-  });
-  const res = await updateOrderRentalItems(next);
-  if (res) {
-    setAddOpen(false);
-  }
-};
+    const payload = { rentalItems: buildUpdatePayload(nextItems) };
+    const res = await onUpdateOrder(order._id, payload);
+  };
 
-const handleEdit = (row) => {
-  const original = row?._original;
-  if (!original) return;
-  setEditItem(original);
-  setEditOpen(true);
-};
+  const handleAddConfirm = async (newItems) => {
+    console.log(newItems, "newwwwwwwwwwwwwwwww");
+    const next = [...rentalItems];
+    newItems?.forEach((x) => {
+      const idx = next.findIndex(
+        (i) => String(i.productId) === String(x.productId)
+      );
+      if (idx >= 0) {
+        next[idx] = {
+          ...next[idx],
+          quantity:
+            safeNumber(next[idx].quantity, 0) + safeNumber(x.quantity, 0),
+          pricePerDay: safeNumber(x.pricePerDay, next[idx].pricePerDay),
+        };
+      } else {
+        next.push({
+          productId: x.productId,
+          productName: x.productName,
+          quantity: safeNumber(x.quantity, 0),
+          pricePerDay: safeNumber(x.pricePerDay, 0),
+        });
+      }
+    });
+    const res = await updateOrderRentalItems(next);
+    if (res) {
+      setAddOpen(false);
+    }
+  };
 
-const handleEditConfirm = async (updated) => {
-  const next = rentalItems.map((x) => (x._id === updated._id ? updated : x));
-  await updateOrderRentalItems(next);
-  setEditOpen(false);
-  setEditItem(null);
-};
+  const handleEdit = (row) => {
+    const original = row?._original;
+    if (!original) return;
+    setEditItem(original);
+    setEditOpen(true);
+  };
 
-const handleDeleteConfirm = async (row) => {
-  console.log(row, "row");
-  confirmationDialogRef.current.open({
-    title: "Delete Item",
-    description: "Are you sure you want to delete this item?",
-    icon: deleteIcon,
-    onConfirm: () => handleDelete(row),
-    confirmText: "Delete",
-    cancelText: "Cancel",
-  });
-};
+  const handleEditConfirm = async (updated) => {
+    const next = rentalItems.map((x) => (x._id === updated._id ? updated : x));
+    await updateOrderRentalItems(next);
+    setEditOpen(false);
+    setEditItem(null);
+  };
 
-const handleDelete = async (row) => {
-  const original = row?._original;
-  if (!original) return;
-  const next = rentalItems.filter((x) => x._id !== original._id);
-  await updateOrderRentalItems(next);
-};
+  const handleDeleteConfirm = async (row) => {
+    console.log(row, "row");
+    confirmationDialogRef.current.open({
+      title: "Delete Item",
+      description: "Are you sure you want to delete this item?",
+      icon: deleteIcon,
+      onConfirm: () => handleDelete(row),
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
+  };
 
-return (
-  <Box sx={{ margin: "40px 0px" }}>
-    <Paper elevation={0} sx={{ p: 4, borderRadius: 3 }}>
-      {/* Header */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 4,
-        }}
-      >
-        <Typography variant="h4" sx={{ fontWeight: 600, color: "#4a5568" }}>
-          Verhuurartikelen
-        </Typography>
-        {isEditMode && (
-          <CustomButton
-            btnLabel={"Add"}
-            variant={"mainButton"}
-            handlePressBtn={() => setAddOpen(true)}
-            startIcon={<AddIcon />}
-            loading={actionLoading}
-          />
-        )}
-      </Box>
+  const handleDelete = async (row) => {
+    const original = row?._original;
+    if (!original) return;
+    const next = rentalItems.filter((x) => x._id !== original._id);
+    await updateOrderRentalItems(next);
+  };
 
-      <PaginatedTable
-        tableHeader={tableHeader}
-        isLoading={loading}
-        tableData={tableData}
-        displayRows={displayRows}
-        onEdit={handleEdit}
-        onDelete={handleDeleteConfirm}
-      />
-
-      {/* Delivery & Cost Details */}
-      <Box sx={{ mt: 6 }}>
-        <Typography
-          variant="h5"
-          sx={{ fontWeight: 600, color: "#4a5568", mb: 3 }}
-        >
-          Levering & Kosten
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item size={{ xs: 12, md: 6 }}>
-            <Typography
-              color="#6b7280"
-              fontSize="15px"
-              fontWeight={500}
-              mb={1}
-            >
-              Afstand (km)
-            </Typography>
-            <TextInput fullWidth value={distance} disabled={true} />
-          </Grid>
-          <Grid item size={{ xs: 12, md: 6 }}>
-            <Typography
-              color="#6b7280"
-              fontSize="15px"
-              fontWeight={500}
-              mb={1}
-            >
-              Transportkosten (Auto)
-            </Typography>
-            <TextInput
-              fullWidth
-              value={`${formatNLCurrency(transportCost)}`}
-              disabled={true}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-
-      {/* Service Fee Information */}
-      <Box sx={{ mt: 5 }}>
-        <Typography variant="h5" fontWeight={600} color="primary.text" mb={3}>
-          Servicekosten informatie
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            py: 2,
-            borderBottom: "1px solid #e5e7eb",
-          }}
-        >
-          <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-            Basis servicekosten (opbouw + afbouw)
-          </Typography>
-          <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-            {serviceFees.baseServiceFee}
-          </Typography>
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-between", py: 2 }}>
-          <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-            Morning Service Kosten
-          </Typography>
-          <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-            {serviceFees.morningServiceFee}
-          </Typography>
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-between", py: 2 }}>
-          <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-            Avondtoeslag
-          </Typography>
-          <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-            {serviceFees.eveningServiceFee}
-          </Typography>
-        </Box>
-      </Box>
-
-      {/* Totals */}
-      <Box sx={{ mt: 4, pt: 3, borderTop: "2px solid #e5e7eb" }}>
-        <Box
-          sx={{ display: "flex", justifyContent: "space-between", py: 1.5 }}
-        >
-          <Typography color="primary.text" fontSize="17px" fontWeight={600}>
-            Subtotaal:
-          </Typography>
-          <Typography color="primary.text" fontSize="17px" fontWeight={600}>
-            {formatNLCurrency(subtotal)}
-          </Typography>
-        </Box>
-        <Divider sx={{ my: 2 }} />
+  return (
+    <Box sx={{ margin: "40px 0px" }}>
+      <Paper elevation={0} sx={{ p: 4, borderRadius: 3 }}>
+        {/* Header */}
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            mb: 4,
           }}
         >
-          <Typography color="primary.text" fontSize="19px" fontWeight={600}>
-            Totaal: (incl. BTW)
+          <Typography variant="h4" sx={{ fontWeight: 600, color: "#4a5568" }}>
+            Verhuurartikelen
           </Typography>
-          <Typography color="primary.text" fontSize="24px" fontWeight={700}>
-            {formatNLCurrency(total)}
-          </Typography>
+          {isEditMode && (
+            <CustomButton
+              btnLabel={"Add"}
+              variant={"mainButton"}
+              handlePressBtn={() => setAddOpen(true)}
+              startIcon={<AddIcon />}
+              loading={actionLoading}
+            />
+          )}
         </Box>
-      </Box>
-    </Paper>
 
-    <AddItemsDialog
-      open={addOpen}
-      onClose={() => setAddOpen(false)}
-      onConfirm={handleAddConfirm}
-      order={order}
-      actionLoading={actionLoading}
-    />
-    <EditItemsDialog
-      open={editOpen}
-      onClose={() => {
-        setEditOpen(false);
-        setEditItem(null);
-      }}
-      item={editItem}
-      onConfirm={handleEditConfirm}
-      loading={actionLoading}
-    />
-    <ConfirmationDialog ref={confirmationDialogRef} />
-  </Box>
-);
+        <PaginatedTable
+          tableHeader={tableHeader}
+          isLoading={loading}
+          tableData={tableData}
+          displayRows={displayRows}
+          onEdit={handleEdit}
+          onDelete={handleDeleteConfirm}
+        />
+
+        {/* Delivery & Cost Details */}
+        <Box sx={{ mt: 6 }}>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: 600, color: "#4a5568", mb: 3 }}
+          >
+            Levering & Kosten
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item size={{ xs: 12, md: 6 }}>
+              <Typography
+                color="#6b7280"
+                fontSize="15px"
+                fontWeight={500}
+                mb={1}
+              >
+                Afstand (km)
+              </Typography>
+              <TextInput fullWidth value={distance} disabled={true} />
+              {/* <Typography fontSize="10px" color="primary.darkGray" mt={1}>
+                Originele afstand: {originalDistance} km
+              </Typography> */}
+
+              <Typography fontSize="10px" color="primary.darkGray" mt={1}>
+                Dit is de afstand die wordt gebruikt voor de facturering. De originele afstand ({originalDistance} km) wordt vier keer vermenigvuldigd en verminderd met de gratis bezorgafstand.
+              </Typography>
+            </Grid>
+            <Grid item size={{ xs: 12, md: 6 }}>
+              <Typography
+                color="#6b7280"
+                fontSize="15px"
+                fontWeight={500}
+                mb={1}
+              >
+                Transportkosten (Auto)
+              </Typography>
+              <TextInput
+                fullWidth
+                value={`${formatNLCurrency(transportCost)}`}
+                disabled={true}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+
+        {/* Service Fee Information */}
+        <Box sx={{ mt: 5 }}>
+          <Typography variant="h5" fontWeight={600} color="primary.text" mb={3}>
+            Servicekosten informatie
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              py: 2,
+              borderBottom: "1px solid #e5e7eb",
+            }}
+          >
+            <Typography color="primary.text" fontSize="16px" fontWeight={600}>
+              Basis servicekosten (opbouw + afbouw)
+            </Typography>
+            <Typography color="primary.text" fontSize="16px" fontWeight={600}>
+              {serviceFees.baseServiceFee}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-between", py: 2 }}>
+            <Typography color="primary.text" fontSize="16px" fontWeight={600}>
+              Morning Service Kosten
+            </Typography>
+            <Typography color="primary.text" fontSize="16px" fontWeight={600}>
+              {serviceFees.morningServiceFee}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-between", py: 2 }}>
+            <Typography color="primary.text" fontSize="16px" fontWeight={600}>
+              Avondtoeslag
+            </Typography>
+            <Typography color="primary.text" fontSize="16px" fontWeight={600}>
+              {serviceFees.eveningServiceFee}
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Totals */}
+        <Box sx={{ mt: 4, pt: 3, borderTop: "2px solid #e5e7eb" }}>
+          <Box
+            sx={{ display: "flex", justifyContent: "space-between", py: 1.5 }}
+          >
+            <Typography color="primary.text" fontSize="17px" fontWeight={600}>
+              Subtotaal:
+            </Typography>
+            <Typography color="primary.text" fontSize="17px" fontWeight={600}>
+              {formatNLCurrency(subtotal)}
+            </Typography>
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography color="primary.text" fontSize="19px" fontWeight={600}>
+              Totaal: (incl. BTW)
+            </Typography>
+            <Typography color="primary.text" fontSize="24px" fontWeight={700}>
+              {formatNLCurrency(total)}
+            </Typography>
+          </Box>
+        </Box>
+
+      </Paper>
+
+      <AddItemsDialog
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        onConfirm={handleAddConfirm}
+        order={order}
+        actionLoading={actionLoading}
+      />
+      <EditItemsDialog
+        open={editOpen}
+        onClose={() => {
+          setEditOpen(false);
+          setEditItem(null);
+        }}
+        item={editItem}
+        onConfirm={handleEditConfirm}
+        loading={actionLoading}
+      />
+      <ConfirmationDialog ref={confirmationDialogRef} />
+    </Box>
+  );
 };
 
 export default ItemsDetails;
