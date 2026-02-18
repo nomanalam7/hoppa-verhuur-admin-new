@@ -21,6 +21,7 @@ import ChartSkeleton from "../../../components/skeleton/ChartSkeleton";
 import TallyCardSkeleton from "../../../components/skeleton/CardSkeleton";
 import OverdueOrdersSkeleton from "../../../components/skeleton/OverdueOrdersSkeleton";
 import { downloadOrderPdf } from "../../../helper/orderDownlaodPdf";
+import { formatNLCurrency } from "../../../helper";
 
 export default function DashboardPage() {
   const {
@@ -186,12 +187,7 @@ export default function DashboardPage() {
           : "N/A",
       pickupDate: order.pickupDate
       ,
-      total: order.total
-        ? `€${Number(order.total).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}`
-        : "€0.00",
+      total: formatNLCurrency(order.total) || 0,
       status: order.status || "N/A",
       paymentStatus: order.paymentStatus || "N/A",
       originalData: order, // Keep original data for handlers
