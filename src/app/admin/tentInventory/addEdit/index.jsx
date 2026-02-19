@@ -458,9 +458,22 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
               </Box>
               <CustomSwitch
                 checked={formData.serviceFeeEnabled}
-                onChange={(e) =>
-                  handleInputChange("serviceFeeEnabled", e.target.checked)
-                }
+                onChange={(e) => {
+                  const isEnabled = e.target.checked;
+                  handleInputChange("serviceFeeEnabled", isEnabled);
+                  
+                  // If service fee is disabled, reset all related fields to initial state
+                  if (!isEnabled) {
+                    handleInputChange("eveningServiceEnabled", false);
+                    handleInputChange("morningServiceEnabled", false);
+                    handleInputChange("eveningServiceFee", "");
+                    handleInputChange("eveningTimeWindow", null);
+                    handleInputChange("morningServiceFee", "");
+                    handleInputChange("morningTimeWindow", null);
+                    handleInputChange("baseService", "");
+                    handleInputChange("isServiceFeeAlwaysIncluded", false);
+                  }
+                }}
                 disabled={isSubmitting}
               />
             </Box>
