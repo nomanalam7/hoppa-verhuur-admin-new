@@ -224,7 +224,7 @@ const handleConfirm = () => {
                                       </Typography>
                                       <TextInput
                                         type="number"
-                                        value={selectedItem.pricePerDay}
+                                        value={selectedItem.pricePerDay?.toFixed(2)}
                                         onChange={(e) =>
                                           updateSelectedField(
                                             productId,

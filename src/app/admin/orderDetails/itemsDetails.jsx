@@ -10,6 +10,7 @@ import ConfirmationDialog from "../../../components/popups/confirmation";
 import deleteIcon from "../../../assets/icons/delete.svg";
 import moment from "moment";
 import { formatNLCurrency } from "../../../helper";
+import useVatStore from "../../../zustand/useVatStore";
 
 const safeNumber = (value, fallback = 0) => {
   const num = Number(value);
@@ -25,7 +26,9 @@ const buildUpdatePayload = (items) => {
 };
 
 const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
+  console.log(order, "orderItem");
   console.log(actionLoading, "actionLoadingItem");
+  const vatPercentage = useVatStore.getState().getVatPercentage();
   const [rentalItems, setRentalItems] = useState([]);
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -40,6 +43,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
   const loading = false;
 
   const subtotal = order?.itemsSubtotal || 0;
+  const itemsSubtotalExclVAT = order?.itemsSubtotalExclVAT || 0;
   const total = order?.total || 0;
   const serviceFees = order?.serviceFees || {
     baseServiceFee: 0,
@@ -47,9 +51,10 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
     morningServiceFee: 0,
   };
   const transportCost = order?.transportCost || 0;
+  const transportCostExclVAT = order?.transportCostExclVAT || 0;
   const distance = order?.distance.toFixed(2) || 0;
   const originalDistance = order?.originalDistance.toFixed(2) || 0;
-
+const exclVat = order?.exclVat || 0;
   const tableHeader = [
     {
       id: "product",
@@ -61,7 +66,11 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
     },
     {
       id: "price",
-      label: "Prijs",
+      label: "Prijs inclusief BTW",
+    },
+    {
+      id: "pricePerDay",
+      label: "Prijs exclusief BTW",
     },
     {
       id: "rentalDuration",
@@ -76,7 +85,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
     });
   }
 
-  const displayRows = ["product", "qty", "price", "rentalDuration"];
+  const displayRows = ["product", "qty", "price", "pricePerDay", "rentalDuration"];
   if (isEditMode) {
     displayRows.push("actionOrder");
   }
@@ -90,6 +99,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
         product: x.productName || "-",
         qty: x.quantity,
         price: formatNLCurrency(x.pricePerDay),
+        pricePerDay: formatNLCurrency(x.pricePerDayExclVAT),
         rentalDuration: x.rentalDuration,
         _original: x,
       };
@@ -210,25 +220,48 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
           >
             Levering & Kosten
           </Typography>
-          <Grid container spacing={2}>
-            <Grid item size={{ xs: 12, md: 6 }}>
+          <Typography fontSize="10px" color="primary.darkGray" mt={1}>
+            Dit is de afstand die wordt gebruikt voor de facturering. De originele afstand ({originalDistance} km) wordt vier keer vermenigvuldigd en verminderd met de gratis bezorgafstand.
+          </Typography>
+          <Grid container spacing={2} mt={2}>
+
+            <Grid item size={{ xs: 12, md: 4 }}>
               <Typography
                 color="#6b7280"
                 fontSize="15px"
                 fontWeight={500}
                 mb={1}
               >
-                Afstand (km)
+                Totale berekende afstand (km)
+              </Typography>
+              <TextInput fullWidth value={originalDistance * 4} disabled={true} />
+
+            </Grid>
+
+            <Grid item size={{ xs: 12, md: 4 }}>
+              <Typography
+                color="#6b7280"
+                fontSize="15px"
+                fontWeight={500}
+                mb={1}
+              >
+                Gratis afstand (km)
+              </Typography>
+              <TextInput fullWidth value={order?.freeDeliveryRadius?.toFixed(2) || 0} disabled={true} />
+            </Grid>
+            <Grid item size={{ xs: 12, md: 4 }}>
+              <Typography
+                color="#6b7280"
+                fontSize="15px"
+                fontWeight={500}
+                mb={1}
+              >
+                Berekende afstand (km)
               </Typography>
               <TextInput fullWidth value={distance} disabled={true} />
-              {/* <Typography fontSize="10px" color="primary.darkGray" mt={1}>
-                Originele afstand: {originalDistance} km
-              </Typography> */}
-
-              <Typography fontSize="10px" color="primary.darkGray" mt={1}>
-                Dit is de afstand die wordt gebruikt voor de facturering. De originele afstand ({originalDistance} km) wordt vier keer vermenigvuldigd en verminderd met de gratis bezorgafstand.
-              </Typography>
             </Grid>
+
+            {/* Transportkosten */}
             <Grid item size={{ xs: 12, md: 6 }}>
               <Typography
                 color="#6b7280"
@@ -240,7 +273,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
               </Typography>
               <TextInput
                 fullWidth
-                value={`${formatNLCurrency(transportCost)}`}
+                value={`${formatNLCurrency(transportCostExclVAT)}`}
                 disabled={true}
               />
             </Grid>
@@ -264,7 +297,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
               Basis servicekosten (opbouw + afbouw)
             </Typography>
             <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-              {serviceFees.baseServiceFee}
+              {formatNLCurrency(serviceFees.baseServiceFee / (1 + vatPercentage / 100))}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between", py: 2 }}>
@@ -272,7 +305,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
               Morning Service Kosten
             </Typography>
             <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-              {serviceFees.morningServiceFee}
+              {formatNLCurrency(serviceFees.morningServiceFee / (1 + vatPercentage / 100))}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between", py: 2 }}>
@@ -280,7 +313,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
               Avondtoeslag
             </Typography>
             <Typography color="primary.text" fontSize="16px" fontWeight={600}>
-              {serviceFees.eveningServiceFee}
+              {formatNLCurrency(serviceFees.eveningServiceFee / (1 + vatPercentage / 100))}
             </Typography>
           </Box>
         </Box>
@@ -294,7 +327,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
               Subtotaal:
             </Typography>
             <Typography color="primary.text" fontSize="17px" fontWeight={600}>
-              {formatNLCurrency(subtotal)}
+              {formatNLCurrency(exclVat)}
             </Typography>
           </Box>
           <Divider sx={{ my: 2 }} />
@@ -306,7 +339,7 @@ const ItemsDetails = ({ isEditMode, order, onUpdateOrder, actionLoading }) => {
             }}
           >
             <Typography color="primary.text" fontSize="19px" fontWeight={600}>
-              Totaal: (incl. BTW)
+              Totaal: (inclusief BTW)
             </Typography>
             <Typography color="primary.text" fontSize="24px" fontWeight={700}>
               {formatNLCurrency(total)}

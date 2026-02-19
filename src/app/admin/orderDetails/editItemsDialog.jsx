@@ -13,7 +13,7 @@ const safeNumber = (value, fallback = 0) => {
 
 const EditItemsDialog = ({ open, onClose, item, onConfirm, actionLoading }) => {
   const initialQty = useMemo(() => safeNumber(item?.quantity, 1), [item]);
-  const initialPrice = useMemo(() => safeNumber(item?.pricePerDay, 0), [item]);
+  const initialPrice = useMemo(() => safeNumber(item?.pricePerDay.toFixed(2), 0), [item]);
 
   const [quantity, setQuantity] = useState(initialQty);
   const [pricePerDay, setPricePerDay] = useState(initialPrice);

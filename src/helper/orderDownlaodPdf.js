@@ -8,7 +8,7 @@ import useVatStore from "../zustand/useVatStore";
 
 export const downloadOrderPdf = async (orderId) => {
   const vatPercentage = useVatStore.getState().getVatPercentage();
-
+const zero = 0;
   console.log(vatPercentage, "vatPercentagerrrrrrrrrrrrrrrrrrrrrrrrrrr");
   try {
     const response = await getOrderById(orderId);
@@ -182,8 +182,17 @@ export const downloadOrderPdf = async (orderId) => {
     doc.text("Subtotaal:", summaryX, finalY);
     doc.text(formatNLCurrency(orderData.itemsSubtotalExclVAT), 195, finalY, { align: "right" });
 
+ 
     finalY += 6;
-    doc.text("Transportkosten:", summaryX, finalY);
+    doc.text(`Gratis afstand (${orderData.freeDeliveryRadius?.toFixed(2)} km):`, summaryX, finalY);
+    doc.text( formatNLCurrency(0), 195, finalY, { align: "right" });
+
+    // finalY += 6;
+    // doc.text(`Originele afstand (${orderData.originalDistance?.toFixed(2)} km):`, summaryX, finalY);
+    // doc.text((), 195, finalY, { align: "right" });
+
+    finalY += 6;
+    doc.text(`Transportkosten  (${orderData.distance?.toFixed(2)} km):`, summaryX, finalY);
     doc.text(formatNLCurrency(orderData.transportCostExclVAT), 195, finalY, { align: "right" });
 
     if (orderData.serviceFeesBreakdown) {

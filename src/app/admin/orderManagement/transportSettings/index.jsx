@@ -128,13 +128,30 @@ const TransportSettingDrawer = forwardRef((props, ref) => {
               mt: 2,
             }}
           >
-            <Typography fontSize="12px" color="#374151">
+            {/* <Typography fontSize="12px" color="#374151">
               <strong>Let op:</strong> De enkele reisafstand wordt vermenigvuldigd met 4
               om de totale afstand te berekenen. Bijvoorbeeld, als de enkele reisafstand
               10 km is, dan wordt de totale afstand 40 km (10 × 4).
               Als er 10 km gratis levering van toepassing is, wordt deze 10 km
               afgetrokken van de totale berekende afstand. De resterende afstand
               wordt gebruikt voor het berekenen van de bezorgkosten.
+            </Typography> */}
+
+            <Typography fontSize="11px" color="#374151">
+              <strong>Voorbeeld:</strong> <br />
+              Magazijn naar klant = 10 km<br />
+              Klant terug naar magazijn = 10 km<br />
+            
+
+              Voor levering en ophalen worden beide ritten meegerekend.<br />
+              Dus de totale afstand wordt 40 km.
+              <br />
+
+              De transportkosten worden berekend door het totaal aantal kilometers te vermenigvuldigen met het tarief dat in het systeem is ingesteld.
+              Bijvoorbeeld, als de totale afstand 40 km is en het tarief €5 per km bedraagt, dan zijn de transportkosten 40 × 5.
+              <br />
+              Als er gratis leveringskilometers zijn ingesteld, worden deze afgetrokken van de totale afstand voordat de transportkosten worden berekend.
+              Alleen de resterende kilometers worden in rekening gebracht.
             </Typography>
           </Box>
 
