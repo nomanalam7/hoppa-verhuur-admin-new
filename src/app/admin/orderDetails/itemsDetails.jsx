@@ -210,6 +210,7 @@ const exclVat = order?.exclVat || 0;
           displayRows={displayRows}
           onEdit={handleEdit}
           onDelete={handleDeleteConfirm}
+          showCheckbox={false}
         />
 
         {/* Delivery & Cost Details */}

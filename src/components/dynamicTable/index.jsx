@@ -59,6 +59,7 @@ export default function PaginatedTable({
   rowsPerPage: propRowsPerPage,
   onPageChange,
   onRowsPerPageChange,
+  showCheckbox = true,
 }) {
   const [localPage, setLocalPage] = useState(0);
   const [localRowsPerPage, setLocalRowsPerPage] = useState(10);
@@ -185,7 +186,8 @@ export default function PaginatedTable({
     switch (val) {
       case "checkbox":
         return (
-          <TableCell>
+
+      <TableCell>
             <Checkbox
               checked={selectedRows.includes(getRowId(row))}
               onChange={(e) => handleSelectRow(e, getRowId(row))}
@@ -493,20 +495,23 @@ export default function PaginatedTable({
         <TableHead>
           <TableRow>
             <TableCell align="left">
-              <Checkbox
-                checked={selectAll}
-                indeterminate={
-                  selectedRows.length > 0 &&
-                  selectedRows.length < visibleRows?.length
-                }
-                onChange={handleSelectAll}
-                sx={{
-                  color: "#ccc",
-                  "&.Mui-checked": {
-                    color: "#1976d2",
-                  },
-                }}
-              />
+
+              {showCheckbox && (
+                <Checkbox
+                  checked={selectAll}
+                  indeterminate={
+                    selectedRows.length > 0 &&
+                    selectedRows.length < visibleRows?.length
+                  }
+                  onChange={handleSelectAll}
+                  sx={{
+                    color: "#ccc",
+                    "&.Mui-checked": {
+                      color: "#1976d2",
+                    },
+                  }}
+                />
+              )}
             </TableCell>
             {tableHeader?.map((header) => (
               <TableCell key={header.id} align={header.align || "left"}>
@@ -541,16 +546,18 @@ export default function PaginatedTable({
               >
                 {/* Checkbox */}
                 <TableCell align="left">
-                  <Checkbox
-                    checked={selectedRows.includes(getRowId(row))}
-                    onChange={(e) => handleSelectRow(e, getRowId(row))}
-                    sx={{
-                      color: "#ccc",
-                      "&.Mui-checked": {
-                        color: "#1976d2",
-                      },
-                    }}
-                  />
+                  {showCheckbox && (
+                    <Checkbox
+                      checked={selectedRows.includes(getRowId(row))}
+                      onChange={(e) => handleSelectRow(e, getRowId(row))}
+                      sx={{
+                        color: "#ccc",
+                        "&.Mui-checked": {
+                          color: "#1976d2",
+                        },
+                      }}
+                    />
+                  )}
                 </TableCell>
 
                 {/* Dynamic cells */}
