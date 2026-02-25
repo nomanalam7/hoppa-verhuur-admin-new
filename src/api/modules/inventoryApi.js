@@ -26,8 +26,8 @@ const updateInventory = (id, payload) =>
 const deleteInventory = (id) =>
   api(`${ENDPOINTS.deleteInventory}/${id}`, null, "delete");
 
-const getInventoryById = (id) =>
-  api(`${ENDPOINTS.getInventoryById}/${id}`, null, "get");
+const getInventoryById = (slug) =>
+  api(`${ENDPOINTS.getInventoryById}/${slug}`, null, "get");
 
 const fetchCategories = () => api(ENDPOINTS.fetchCategories, null, "get");
 

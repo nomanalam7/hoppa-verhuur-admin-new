@@ -242,11 +242,11 @@ export const useInventory = () => {
   // ===============================
 
   const handleGetInventoryById = useCallback(
-    async (id) => {
+    async (slug) => {
       setError("");
       setLoading(true);
       try {
-        const response = await getInventoryById(id);
+        const response = await getInventoryById(slug);
         const isSuccess = response?.status >= 200 && response?.status < 300;
 
         if (!isSuccess) {

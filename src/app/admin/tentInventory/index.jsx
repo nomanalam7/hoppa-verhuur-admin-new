@@ -54,9 +54,11 @@ export default function TentInventoryPage() {
 
   // Handle Edit Item - Fetch data and open drawer
   const handleEditItem = async (row) => {
+    console.log(row, "rowssssssssssssssssss");
     const itemId = row._id || row.id || row;
+    const slug = row.slug || row.itemName;
     try {
-      const response = await handleGetInventoryById(itemId);
+      const response = await handleGetInventoryById(slug);
       if (response.success && response.data) {
         drawerRef.current?.openDrawer(response.data, {
           onSave: (payload) => handleUpdateInventory(itemId, payload),
