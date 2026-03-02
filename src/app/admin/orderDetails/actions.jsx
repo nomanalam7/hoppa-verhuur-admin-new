@@ -59,7 +59,7 @@ const OrderActions = ({
 
   const showEditDelete = paymentStatus === "Unpaid";
   const openWhatsApp = () => {
-    const phone = order?.customerDetails?.phoneNumber?.replace(/^0/, "92");
+    const phone = order?.customerDetails?.phoneNumber?.replace(/^0/, "31");
 
     if (!phone) return;
 

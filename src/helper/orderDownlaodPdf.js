@@ -69,7 +69,7 @@ const zero = 0;
     y += 5;
     doc.text(`E-mail: ${customer.email || "N.v.t."}`, 14, y);
     y += 5;
-    doc.text(`Telefoon: ${customer.phoneNumber || "N.v.t."}`, 14, y);
+    doc.text(`Telefoon: ${customer?.phoneNumber?.replace(/^0/, "+31") || "N.v.t."}`, 14, y);
 
     /* ================= LOGISTICS ================= */
     const rightX = 110;

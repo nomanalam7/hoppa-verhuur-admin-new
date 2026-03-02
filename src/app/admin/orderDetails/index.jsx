@@ -67,7 +67,7 @@ const OrderDetailsPage = () => {
       `${selectedOrder?.customerDetails?.firstName || ""} ${selectedOrder?.customerDetails?.lastName || ""
         }`.trim() || "---",
     email: selectedOrder?.customerDetails?.email || "---",
-    phone: selectedOrder?.customerDetails?.phoneNumber || "---",
+    phone: selectedOrder?.customerDetails?.phoneNumber?.replace(/^0/, "+31") || "---",
     deliveryMethod: selectedOrder?.pickupDeliveryType || "---",
     deliveryAddress: selectedOrder?.deliveryAddress || "---",
     pickupAddress: selectedOrder?.pickupAddress || "---",
