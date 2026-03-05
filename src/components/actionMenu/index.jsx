@@ -110,7 +110,7 @@ export default function ActionMenu({
     }
 
     // Delete - always last
-    if (showDelete && selectedRow?.paymentStatus === "Unpaid") {
+    if (showDelete) {
       items.push({
         label: "Verwijderen",
         icon: Trash2,
