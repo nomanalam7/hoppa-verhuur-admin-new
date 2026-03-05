@@ -110,7 +110,7 @@ export default function ActionMenu({
     }
 
     // Delete - always last
-    if (showDelete) {
+    if (showDelete && selectedRow?.status !== "Completed") {
       items.push({
         label: "Verwijderen",
         icon: Trash2,
