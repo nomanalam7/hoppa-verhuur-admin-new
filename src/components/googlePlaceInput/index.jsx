@@ -19,7 +19,7 @@ const GooglePlacesInput = ({
   const autocompleteRef = useRef(null);
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyAZgyAHxugn3hINdg4b9vJUHJtUHpJYw2U",
+    googleMapsApiKey: "AIzaSyAgcjwvE7OWYQdsCXjEXKLh0WiM-L3KxSw",
     libraries,
   });
 
