@@ -27,7 +27,7 @@ export default function MainLayout({ children }) {
 
   const handleLogout = () => {
     clearUserData();
-    navigate("/inloggen");
+    navigate("/login");
   };
 
   // Calculate actual drawer width based on open/closed state

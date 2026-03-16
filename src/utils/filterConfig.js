@@ -3,6 +3,7 @@ export const FILTER_MODES = {
   ORDER_MANAGEMENT: "orderManagement",
   TENT_INVENTORY: "tentInventory",
   REPORTS: "reports",
+  BLOG: "blog",
 };
 
 export const FILTER_FIELD_TYPES = {
@@ -120,6 +121,23 @@ export const filterConfigs = {
         id: "dateRange",
         placeholder: "Selecteer een datum",
         gridSize: { xs: 12, md: 3 },
+      },
+    ],
+  },
+
+  [FILTER_MODES.BLOG]: {
+    fields: [
+      {
+        type: FILTER_FIELD_TYPES.SEARCH,
+        id: "search",
+        placeholder: "Zoeken op titel of slug",
+        gridSize: { xs: 12, md: 8 },
+      },
+      {
+        type: FILTER_FIELD_TYPES.DATE,
+        id: "createdAt",
+        placeholder: "Selecteer datum",
+        gridSize: { xs: 12, md: 4 },
       },
     ],
   },

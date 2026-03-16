@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { AUTH_ROUTES, ADMIN_ROUTES } from "./routes";
+import { AUTH_ROUTES, ADMIN_ROUTES, BLOG_ROUTES } from "./routes";
 import MainLayout from "./components/layout";
 import { ErrorDialogProvider } from "./lib/context/errorDialogContext";
 import { SuccessDialogProvider } from "./lib/context/successDialogContext";
@@ -9,14 +9,22 @@ import { AuthProtectedLayout, ProtectedLayout } from "./routes/RoutesLayout";
 import SettingsPage from "./app/admin/settings";
 import NotificationsPage from "./app/admin/notifications";
 import useVatTransportSettings from "./hooks/features/vatSettings";
-
+import useUserStore from "./zustand/useUserStore";
 // Global component to fetch VAT settings on every reload (only when user is logged in)
 const VatSettingsInitializer = () => {
   useVatTransportSettings();
   return null;
 };
 
+
 function App() {
+  const { user } = useUserStore();
+  console.log(user, "Current User");
+
+
+
+  const role = user?.admin?.role;
+  console.log(role, "Role");
   return (
     <ErrorDialogProvider>
       <SuccessDialogProvider>
@@ -35,7 +43,7 @@ function App() {
 
             <Route element={<ProtectedLayout />}>
 
-              {ADMIN_ROUTES?.map((route) => (
+              {role === "admin" && ADMIN_ROUTES?.map((route) => (
                 <Route
                   key={route.id}
                   path={route.path}
@@ -70,9 +78,28 @@ function App() {
                   </MainLayout>
                 }
               />
+
+              {role === "seo" && BLOG_ROUTES?.map((route) => (
+                <Route
+                  key={route.id}
+                  path={route.path}
+                  element={
+                    route.component ? (
+                      <MainLayout>{route.component}</MainLayout>
+                    ) : null
+                  }
+                />
+              ))}
+              
             </Route>
 
-            <Route path="*" element={<Navigate to={"/"} replace />} />
+
+            <Route
+              path="*"
+              element={
+                <Navigate to={user ? "/" : "/login"} replace />
+              }
+            />
           </Routes>
         </BrowserRouter>
       </SuccessDialogProvider>

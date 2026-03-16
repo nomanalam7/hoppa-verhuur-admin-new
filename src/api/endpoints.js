@@ -51,6 +51,13 @@ const ENDPOINTS = {
   //notifications
   getNotifications: "notifications/all",
   getNotificationbyType: "notifications",
+
+  //blogs
+  getBlogs: "blogs/all",
+  getBlogById: "blogs",
+  addBlog: "blogs/create",
+  updateBlog: "blogs/update",
+  deleteBlog: "blogs/delete",
 };
 
 export default ENDPOINTS;

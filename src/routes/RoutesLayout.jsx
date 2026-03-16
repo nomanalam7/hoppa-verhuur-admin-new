@@ -13,7 +13,6 @@ export const ProtectedLayout = () => {
 export const AuthProtectedLayout = () => {
   const { user } = useUserStore();
   console.log(user, "Current User");
-  // Agar user already logged in hai to dashboard pe redirect karo
   if (user) {
     return <Navigate to="/" replace />;
   }

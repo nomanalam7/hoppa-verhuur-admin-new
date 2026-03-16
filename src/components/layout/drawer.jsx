@@ -12,9 +12,10 @@ import {
   useTheme,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { ADMIN_ROUTES } from "../../routes";
+import { ADMIN_ROUTES, BLOG_ROUTES } from "../../routes";
 import logo from "../../assets/images/web-logo.png";
 import { Bell, Settings, LogOut, Menu, X } from "lucide-react";
+import useUserStore from "../../zustand/useUserStore";
 
 // Small screen ke liye width kam
 const drawerWidthLarge = 180;
@@ -26,8 +27,12 @@ export default function Drawer({ drawerOpen, handleNavigation, handleLogout }) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const location = useLocation();
+  const { user } = useUserStore();
+  console.log(user, "Current User");
+  const role = user?.admin?.role;
+  console.log(role, "Role");
 
-  const routes = ADMIN_ROUTES;
+  const routes = role === "admin" ? ADMIN_ROUTES : BLOG_ROUTES;
   console.log(routes, "Routes");
 
   // Small screen pe drawer width automatically adjust hoga

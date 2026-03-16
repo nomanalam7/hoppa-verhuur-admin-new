@@ -7,6 +7,7 @@ import OrderManagementPage from "../app/admin/orderManagement";
 import TentInventoryPage from "../app/admin/tentInventory";
 import ReportsPage from "../app/admin/reports";
 import SettingsPage from "../app/admin/settings";
+import BlogPage from "../app/admin/blog";
 
 const AUTH_ROUTES = [
   {
@@ -101,6 +102,16 @@ const ADMIN_ROUTES = [
     inActiveIcon: reportingInactive,
     isHideMenu: false,
   },
+  {
+    id: 7,
+    name: "Blog",
+    component: <BlogPage />,
+    exact: "exact",
+    path: "/blog",
+    activeIcon: documentActive,
+    inActiveIcon: documentInactive,
+    isHideMenu: false,
+  },
 
   // {
   //   id: 8,
@@ -114,5 +125,18 @@ const ADMIN_ROUTES = [
   // },
 ];
 
+const BLOG_ROUTES = [
+  {
+    id: 1,
+    name: "Blog",
+    component: <BlogPage />,
+    exact: "exact",
+    path: "/",
+    activeIcon: documentActive,
+    inActiveIcon: documentInactive,
+    isHideMenu: false,
+  },
+];
 
-export { AUTH_ROUTES, ADMIN_ROUTES };
+
+export { AUTH_ROUTES, ADMIN_ROUTES, BLOG_ROUTES };
