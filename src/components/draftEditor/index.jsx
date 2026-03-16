@@ -352,7 +352,7 @@ const DraftEditor = ({
             <Button variant="outlined" onClick={() => setLinkDialogOpen(false)}>
               Annuleren
             </Button>
-            <Button variant="contained" onClick={handleLinkSubmit}>
+            <Button variant="gradient" onClick={handleLinkSubmit}>
               Toevoegen
             </Button>
           </Stack>
