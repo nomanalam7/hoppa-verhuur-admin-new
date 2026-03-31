@@ -39,6 +39,8 @@ export default function ActionMenu({
   showInventoryDelete = false,
   onInventoryDelete,
   menuItems = [], // Optional custom menu items
+  showUpdateOrderAdmin = false,
+  onUpdateOrderAdmin,
 }) {
   // Generate menu items from props
   const generateMenuItems = () => {
@@ -166,6 +168,16 @@ export default function ActionMenu({
         label: "Markeren als voltooid",
         icon: Check,
         onClick: onMarkAsCompleted,
+        variant: "default",
+      });
+    }
+
+    // Update Order Admin
+    if (showUpdateOrderAdmin) {
+      items.push({
+        label: "Bewerken",
+        icon: Edit,
+        onClick: onUpdateOrderAdmin,
         variant: "default",
       });
     }

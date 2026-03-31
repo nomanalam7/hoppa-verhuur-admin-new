@@ -32,6 +32,7 @@ export default function OrderManagementPage() {
     handleMarkAsPickedUp: apiMarkAsPickedUp,
     handleMarkAsCompleted: apiMarkAsCompleted,
     handleDeleteOrder,
+    fetchOrders,
     handlePageChange,
     handleLimitChange,
   } = useOrders();
@@ -139,6 +140,10 @@ export default function OrderManagementPage() {
     );
   };
 
+  const handleOpenEditDrawer = (selectedRow) => {
+    navigate(`/order-management/edit/${selectedRow?._id}`);
+  };
+
   const getOrderTableHeaderForExport = () => [
     {
       id: "customerName",
@@ -235,6 +240,8 @@ export default function OrderManagementPage() {
           showMarkAsPickup={true}
           onMarkAsPickup={handleMarkAsPickup}
           showMarkasCompleted={true}
+          onUpdateOrderAdmin={handleOpenEditDrawer}
+          showUpdateOrderAdmin={true}
           onMarkAsCompleted={handleMarkAsCompleted}
           onDelete={handleDelete}
           onSelectionChange={setSelectedOrderIds}

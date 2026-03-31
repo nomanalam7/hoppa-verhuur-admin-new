@@ -5,6 +5,7 @@ import MainLayout from "./components/layout";
 import { ErrorDialogProvider } from "./lib/context/errorDialogContext";
 import { SuccessDialogProvider } from "./lib/context/successDialogContext";
 import OrderDetailsPage from "./app/admin/orderDetails";
+import EditOrderDetailsPage from "./app/admin/orderManagement/editOrderDetails";
 import { AuthProtectedLayout, ProtectedLayout } from "./routes/RoutesLayout";
 import SettingsPage from "./app/admin/settings";
 import NotificationsPage from "./app/admin/notifications";
@@ -75,6 +76,14 @@ function App() {
                 element={
                   <MainLayout>
                     <OrderDetailsPage />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="/order-management/edit/:id"
+                element={
+                  <MainLayout>
+                    <EditOrderDetailsPage />
                   </MainLayout>
                 }
               />

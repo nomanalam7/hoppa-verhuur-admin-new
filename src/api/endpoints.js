@@ -47,6 +47,7 @@ const ENDPOINTS = {
   markAsConfirmedOrder: "orders/status/confirmed",
   deleteOrder: "orders/delete",
   addAdminNotes: "orders/admin-notes",
+  updateOrderAdmin: "orders/admin-update-details",
 
   //notifications
   getNotifications: "notifications/all",

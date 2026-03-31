@@ -40,6 +40,9 @@ const deleteOrder = (id) =>
 const addAdminNotes = (id, payload) =>
   api(`${ENDPOINTS.addAdminNotes}/${id}`, payload, "post");
 
+const updateOrderAdmin = (id, payload) =>
+  api(`${ENDPOINTS.updateOrderAdmin}/${id}`, payload, "put");
+
 export {
   getOrders,
   getOrderById,
@@ -50,4 +53,5 @@ export {
   markAsConfirmedOrder,
   deleteOrder,
   addAdminNotes,
+  updateOrderAdmin,
 };

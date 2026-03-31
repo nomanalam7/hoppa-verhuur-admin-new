@@ -8,6 +8,7 @@ import {
   markAsCompletedOrder,
   markAsConfirmedOrder,
   deleteOrder,
+  updateOrderAdmin,
 } from "../../api/modules/order";
 import useFilterSliceKey from "../../zustand/filter_slice_key";
 import { FILTER_MODES } from "../../utils/filterConfig";
@@ -90,6 +91,39 @@ export const useOrders = () => {
       }
     },
     [buildOrdersParams, showError, setOrderPagination]
+  );
+  
+
+  // Admin update order (used by edit drawer)
+  const handleUpdateOrderAdmin = useCallback(
+    async (id, payload) => {
+      setLoading(true);
+      try {
+        const response = await updateOrderAdmin(id, payload);
+
+        if (response?.status === 200 || response.status === 201) {
+          await fetchOrders(); // Refresh list
+          showSuccess({
+            title: response?.data?.message || "Order updated successfully",
+          });
+          return response?.data;
+        }
+
+        showError({
+          title: response?.data?.message || "Failed to update order",
+        });
+        return null;
+      } catch (err) {
+        showError({
+          title:
+            err?.response?.data?.message || "Failed to update order",
+        });
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [fetchOrders, showError, showSuccess]
   );
 
   // Fetch single order by ID
@@ -340,6 +374,7 @@ export const useOrders = () => {
     fetchOrders,
     fetchOrderById,
     handleUpdateOrder,
+    handleUpdateOrderAdmin,
     handleMarkAsPickedUp,
     handleMarkAsDelivered,
     handleMarkAsCompleted,

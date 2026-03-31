@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Card, Stack, Typography } from "@mui/material";
 import { CustomButton } from "../../../components";
 import { downloadOrderPdf } from "../../../helper/orderDownlaodPdf";
-
+import { useNavigate } from "react-router-dom";
 const OrderActions = ({
   isEditMode,
   setIsEditMode,
@@ -18,6 +18,7 @@ const OrderActions = ({
   const paymentStatus = order?.paymentStatus || "Unpaid";
   const isDelivered = order?.isDelivered || false;
   const isPickedUp = order?.isPickedUp || false;
+  const navigate = useNavigate();
 
   const getPrimaryAction = () => {
     // Payment unpaid -> Confirm order
@@ -139,11 +140,12 @@ ${itemsText}
 
           {showEditDelete && (
             <CustomButton
-              btnLabel={isEditMode ? "Klaar" : "Bestelling bewerken"}
-              handlePressBtn={() => setIsEditMode(!isEditMode)}
+              btnLabel={"Bestelling bewerken"}
+                handlePressBtn={() => navigate("/order-management/edit/" + order?._id)}
               variant="grayButton"
             />
           )}
+          
 
           <CustomButton
             btnLabel="WhatsApp"

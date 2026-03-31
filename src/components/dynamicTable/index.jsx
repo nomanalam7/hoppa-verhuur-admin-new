@@ -60,6 +60,8 @@ export default function PaginatedTable({
   onPageChange,
   onRowsPerPageChange,
   showCheckbox = true,
+  showUpdateOrderAdmin = false,
+  onUpdateOrderAdmin,
 }) {
   const [localPage, setLocalPage] = useState(0);
   const [localRowsPerPage, setLocalRowsPerPage] = useState(10);
@@ -639,6 +641,8 @@ export default function PaginatedTable({
         onMarkAsPickup={onMarkAsPickup}
         showMarkasCompleted={showMarkasCompleted}
         onMarkAsCompleted={onMarkAsCompleted}
+        showUpdateOrderAdmin={showUpdateOrderAdmin}
+        onUpdateOrderAdmin={onUpdateOrderAdmin}
         menuItems={menuItems}
       />
     </TableContainer>
