@@ -223,6 +223,13 @@ const EditOrderDetailsPage = () => {
     return next;
   };
 
+  function isValidPhone(value) {
+    const raw = String(value || "").trim();
+    const digits = raw.replace(/[^\d]/g, "");
+    return digits.length === 10;
+  }
+  
+
   const saveField = async (fieldKey, sectionKey, payload) => {
     if (!id) return;
     setSavingField(fieldKey);
@@ -246,6 +253,7 @@ const EditOrderDetailsPage = () => {
       if (!order.customerDetails.email?.trim()) return "E-mail is verplicht";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.customerDetails.email)) return "Voer een geldig e-mailadres in";
       if (!order.customerDetails.phoneNumber?.trim()) return "Telefoonnummer is verplicht";
+      if (!isValidPhone(order.customerDetails.phoneNumber)) return "Voer een geldig telefoonnummer in (10 cijfers)";
       return "";
     }
 
@@ -319,7 +327,20 @@ const EditOrderDetailsPage = () => {
               ].map(([key, label]) => (
                 <Grid key={key} item size={{ xs: 12, md: 4 }}>
                   <Box>
-                    <TextInput showLabel={label} value={order.customerDetails[key]} onChange={(e) => setCustomer(key, e.target.value)} inputBgColor="#f5f5f5" />
+                    <TextInput
+                      showLabel={label}
+                      value={order.customerDetails[key]}
+                      onChange={(e) => {
+                        if (key === "phoneNumber") {
+                          setCustomer(key, String(e.target.value || "").replace(/\D/g, ""));
+                          return;
+                        }
+                        setCustomer(key, e.target.value);
+                      }}
+                      type={key === "phoneNumber" ? "tel" : undefined}
+                      inputProps={key === "phoneNumber" ? { inputMode: "numeric", pattern: "[0-9]*", maxLength: 10 } : undefined}
+                      inputBgColor="#f5f5f5"
+                    />
                   </Box>
                 </Grid>
               ))}
