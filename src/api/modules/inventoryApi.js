@@ -35,6 +35,8 @@ const getInventoryStats = () => api(ENDPOINTS.inventoryStats, null, "get");
 
 const getAssormentItems = () => api(ENDPOINTS.getAssormentItems, {}, "get");
 
+
+const updateIsFeatured = (id, payload) => api(`${ENDPOINTS.updateIsFeatured}/${id}`, payload, "put");
 export {
   getInventory,
   addInventory,
@@ -43,5 +45,6 @@ export {
   fetchCategories,
   getInventoryById,
   getInventoryStats,
-  getAssormentItems
+  getAssormentItems,
+  updateIsFeatured
 };

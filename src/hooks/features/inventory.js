@@ -7,6 +7,7 @@ import {
   deleteInventory,
   fetchCategories,
   getInventoryStats,
+  updateIsFeatured,
 } from "../../api/modules/inventoryApi";
 import { useErrorDialog } from "../../lib/context/errorDialogContext";
 import { useSuccessDialog } from "../../lib/context/successDialogContext";
@@ -276,6 +277,35 @@ export const useInventory = () => {
     [showError]
   );
 
+
+  const handleUpdateIsFeatured = useCallback(async (id, payload) => {
+    setError("");
+    setLoading(true);
+    try {
+      const response = await updateIsFeatured(id, payload);
+      const isSuccess = response?.status >= 200 && response?.status < 300;
+ 
+      if (!isSuccess) {
+        throw new Error(response?.data?.message || "Failed to update is featured");
+
+      }
+      showSuccess({
+        title: response?.data?.message || "Is featured updated successfully",
+      });
+      await handleGetInventory();
+      return { success: true, message: response?.data?.message, data: response?.data?.data };
+    } catch (err) {
+      const message = err?.response?.data?.message || err.message;
+      setError(message);
+      showError({
+        title: message,
+      });
+      return { success: false, message, data: null };
+    } finally {
+      setLoading(false);
+    }
+  }, [showError, showSuccess, handleGetInventory]);
+
   // ===============================
   // 🔹 FETCH CATEGORIES
   // ===============================
@@ -373,5 +403,6 @@ export const useInventory = () => {
     error,
     inventoryStats,
     handleGetInventoryStats,
+    handleUpdateIsFeatured,
   };
 };

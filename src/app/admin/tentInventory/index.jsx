@@ -39,6 +39,7 @@ export default function TentInventoryPage() {
     handleGetInventoryStats,
     inventoryStats,
     updateOrder,
+    handleUpdateIsFeatured,
   } = useInventory();
 
   console.log(inventoryStats, "inventoryStats");
@@ -118,6 +119,7 @@ export default function TentInventoryPage() {
     { id: "price", label: "Prijs per dag (incl. BTW)" },
     { id: "pricePerdayexculudingVat", label: "Prijs per dag (excl. BTW)" },
     { id: "availability", label: "Beschikbaarheid" },
+    { id: "isFeatured", label: "Geselecteerd" },
     { id: "actions", label: "Acties" },
   ];
 
@@ -180,6 +182,15 @@ export default function TentInventoryPage() {
     });
   };
 
+
+  const handleUpdateIsFeaturedItem = async (checked, row) => {
+    console.log(checked, "checkedccccccccccccccccccccccccccccccccc");
+    console.log(row, "rowssssssssssssssssssrowssssssssssssssssssrowssssssssssssssssss");
+    const response = await handleUpdateIsFeatured(row._id, {
+      isFeatured: checked,
+    });
+  };
+
   const tableDataWithHandlers = tableData.map((item) => ({
     ...item,
     // onAvailabilityChange: handleAvailabilityChange,
@@ -193,6 +204,7 @@ export default function TentInventoryPage() {
     "price",
     "pricePerdayexculudingVat",
     "availability",
+    "isFeatured",
     "actions",
   ];
   return (
@@ -267,6 +279,7 @@ export default function TentInventoryPage() {
           onInventoryDelete={handleDeleteItem}
           handleAvailabilityChange={handleAvailabilityChange}
           isLoading={loading}
+          handleUpdateIsFeaturedItem={handleUpdateIsFeaturedItem} 
           onSelectionChange={setSelectedInventoryIds}
         />
       </TableWrapper>

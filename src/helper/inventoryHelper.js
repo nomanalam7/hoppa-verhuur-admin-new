@@ -151,6 +151,7 @@ export const formatInventoryForTable = (inventoryData) => {
     pricePerdayexculudingVat: formatNLCurrency(item.pricePerdayexculudingVat) || "0.00",
     availability: item.isAvailable ?? true,
     slug: item.slug || item.itemName,
+    isFeatured: item.isFeatured?.value || false,
   }));
 };
 

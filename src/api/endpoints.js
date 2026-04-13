@@ -30,6 +30,7 @@ const ENDPOINTS = {
   calenderData: "admin/dashboard/calendar-orders",
   inventoryStats: "admin/dashboard/inventory/stats",
   getAssormentItems: "inventory-items/by-category",
+  updateIsFeatured: "inventory-items/update-featured",
 
   //transport settings
   getTransportSettings: "transport-settings",

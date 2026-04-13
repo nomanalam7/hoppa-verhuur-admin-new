@@ -62,6 +62,7 @@ export default function PaginatedTable({
   showCheckbox = true,
   showUpdateOrderAdmin = false,
   onUpdateOrderAdmin,
+  handleUpdateIsFeaturedItem,
 }) {
   const [localPage, setLocalPage] = useState(0);
   const [localRowsPerPage, setLocalRowsPerPage] = useState(10);
@@ -315,6 +316,15 @@ export default function PaginatedTable({
             >
               {row.price}
             </Typography>
+          </TableCell>
+        );
+
+      case "isFeatured":
+        return (
+          <TableCell>
+            <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+              <CustomSwitch checked={row?.isFeatured || false} onChange={(e) => handleUpdateIsFeaturedItem(e.target.checked, row)} />
+            </Box>
           </TableCell>
         );
 
