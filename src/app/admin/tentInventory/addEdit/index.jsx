@@ -58,7 +58,36 @@ const getInitialFormData = () => ({
   morningServiceFee: "",
   morningTimeWindow: null,
   availableForRental: true,
+  isFeatured: false,
 });
+
+/** Dutch labels for category dropdown only; API payload still uses _id. */
+const INVENTORY_CATEGORY_LABEL_NL_BY_NAME = {
+  Tents: "Tenten",
+  "Tables & Chairs": "Tafels en stoelen",
+  "Party accessories": "Party Accessoires",
+  Others: "Overig",
+};
+
+const INVENTORY_CATEGORY_LABEL_NL_BY_ID = {
+  CTG00001: "Tenten",
+  CTG00002: "Tafels en stoelen",
+  CTG00003: "Party Accessoires",
+  CTG00004: "Overig",
+};
+
+const getInventoryCategoryLabelNl = (cat) => {
+  if (!cat) return "";
+  const byName = INVENTORY_CATEGORY_LABEL_NL_BY_NAME[cat.name];
+  if (byName) return byName;
+  const idKey =
+    typeof cat.categoryId === "string"
+      ? cat.categoryId.replace(/-/g, "")
+      : "";
+  const byId = idKey ? INVENTORY_CATEGORY_LABEL_NL_BY_ID[idKey] : undefined;
+  if (byId) return byId;
+  return cat.name || "";
+};
 
 const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
   const drawerRef = useRef(null);
@@ -187,7 +216,7 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
     if (!categories || categories.length === 0) return [];
     return categories.map((cat) => ({
       value: cat._id,
-      label: cat.name,
+      label: getInventoryCategoryLabelNl(cat),
     }));
   }, [categories]);
 
@@ -742,6 +771,16 @@ const AddEditTentInventoryDrawer = forwardRef((props, ref) => {
                 disabled={isSubmitting}
               />
             </Box>
+          </Box>
+
+          {/* Is Featured */}
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Typography fontSize="14px" fontWeight={500} color="#030229">Geselecteerd</Typography>
+            <CustomSwitch
+              checked={formData.isFeatured}
+              onChange={(e) => handleInputChange("isFeatured", e.target.checked)}
+              disabled={isSubmitting}
+            />
           </Box>
         </Stack>
       </Box>

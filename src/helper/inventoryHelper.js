@@ -1,6 +1,16 @@
 import { formatNLCurrency } from "./index";
 import useVatStore from "../zustand/useVatStore";
 
+/** API may return boolean or { value: boolean } */
+const normalizeIsFeaturedFromApi = (raw) => {
+  if (raw == null) return false;
+  if (typeof raw === "boolean") return raw;
+  if (typeof raw === "object" && raw !== null && "value" in raw) {
+    return Boolean(raw.value);
+  }
+  return false;
+};
+
 /**
  * Convert including VAT price to excluding VAT
  */
@@ -78,6 +88,7 @@ export const transformApiResponseToFormData = (apiData) => {
       serviceFeeSettings.morningTimeWindow
     ),
     availableForRental: apiData.isAvailable ?? true,
+    isFeatured: normalizeIsFeaturedFromApi(apiData.isFeatured),
   };
 };
 
@@ -129,6 +140,7 @@ export const transformFormDataToApiPayload = (formData) => {
       isServiceFeeAlwaysIncluded: formData.isServiceFeeAlwaysIncluded,
     },
     isAvailable: formData.availableForRental,
+    isFeatured: Boolean(formData.isFeatured),
   };
 };
 
@@ -151,7 +163,7 @@ export const formatInventoryForTable = (inventoryData) => {
     pricePerdayexculudingVat: formatNLCurrency(item.pricePerdayexculudingVat) || "0.00",
     availability: item.isAvailable ?? true,
     slug: item.slug || item.itemName,
-    isFeatured: item.isFeatured?.value || false,
+    isFeatured: normalizeIsFeaturedFromApi(item.isFeatured),
   }));
 };
 
