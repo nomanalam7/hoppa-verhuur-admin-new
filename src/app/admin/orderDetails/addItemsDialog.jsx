@@ -96,6 +96,7 @@ const AddItemsDialog = ({ open, onClose, onConfirm , actionLoading  }) => {
         categoryName: category.label,
         quantity: 1,
         pricePerDay: safeNumber(product?.pricePerDay, 0),
+        pricePerdayexculudingVat: safeNumber(product?.pricePerdayexculudingVat, 0),
       };
       return next;
     });
@@ -111,13 +112,17 @@ const AddItemsDialog = ({ open, onClose, onConfirm , actionLoading  }) => {
     });
   };
 
+  console.log(selected , "selectedccccccccccccccccccccccccccccccccc");
+
 const handleConfirm = () => {
   const rentalItemsPayload = Object.values(selected).map((x) => ({
     productId: x.productId,
     productName: x.productName,
     quantity: safeNumber(x.quantity, 0),
     pricePerDay: safeNumber(x.pricePerDay, 0),
+    pricePerdayexculudingVat: safeNumber(x.pricePerdayexculudingVat, 0),
   }));
+  
 
   console.log(rentalItemsPayload, "Final Payload");
   onConfirm?.(rentalItemsPayload);
@@ -130,6 +135,8 @@ const handleConfirm = () => {
       return next;
     });
   };
+
+  console.log(categories , "categoriesccccccccccccccccccccccccccccccccc");
 
   return (
     <DialogContainer open={open} onClose={onClose} maxWidth="700px">
@@ -199,7 +206,7 @@ const handleConfirm = () => {
                                         color="primary.lightText"
                                         mb={0.5}
                                       >
-                                        Qty
+                                        Aantal
                                       </Typography>
                                       <TextInput
                                         type="number"
@@ -211,6 +218,7 @@ const handleConfirm = () => {
                                             safeNumber(e.target.value, 0)
                                           )
                                         }
+                                        disabled={true}
                                       />
                                     </Box>
                                     <Box flex={1}>
@@ -220,7 +228,8 @@ const handleConfirm = () => {
                                         color="primary.lightText"
                                         mb={0.5}
                                       >
-                                        Price
+                                      
+Prijs / dag (excl. btw)
                                       </Typography>
                                       <TextInput
                                         type="number"
@@ -232,6 +241,7 @@ const handleConfirm = () => {
                                             safeNumber(e.target.value, 0)
                                           )
                                         }
+                                        disabled={true}
                                       />
                                     </Box>
                                   </Box>

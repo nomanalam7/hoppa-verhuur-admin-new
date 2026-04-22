@@ -188,16 +188,16 @@ const EditOrderDetailsPage = () => {
           next[idx] = {
             ...next[idx],
             quantity: toNumber(next[idx].quantity) + toNumber(item.quantity),
-            pricePerDayExclVAT: toNumber(item.pricePerDay),
-            pricePerDay: Number((toNumber(item.pricePerDay) * vatMultiplier).toFixed(2)),
+            pricePerDayExclVAT: toNumber(item.pricePerdayexculudingVat),
+            pricePerDay: Number(toNumber(item.pricePerDay)),
           };
         } else {
           next.push({
             productId: safeString(item.productId),
             productName: safeString(item.productName),
             quantity: toNumber(item.quantity),
-            pricePerDayExclVAT: toNumber(item.pricePerDay),
-            pricePerDay: Number((toNumber(item.pricePerDay) * vatMultiplier).toFixed(2)),
+            pricePerDayExclVAT: toNumber(item.pricePerdayexculudingVat),
+            pricePerDay: Number(toNumber(item.pricePerDay)),
           });
         }
       });

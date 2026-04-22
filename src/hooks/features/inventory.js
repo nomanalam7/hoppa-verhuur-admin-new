@@ -14,6 +14,7 @@ import { useSuccessDialog } from "../../lib/context/successDialogContext";
 import useInventorySlice from "../../zustand/inventorySlice";
 import useFilterSliceKey from "../../zustand/filter_slice_key";
 import { FILTER_MODES } from "../../utils/filterConfig";
+import useDebounce from "../useDebounce";
 
 export const useInventory = () => {
   const { showError } = useErrorDialog();
@@ -33,6 +34,7 @@ export const useInventory = () => {
     () => filters[FILTER_MODES.TENT_INVENTORY] || {},
     [filters]
   );
+  const debouncedSearch = useDebounce(inventoryFilters.search, 400);
 
   // ===============================
   // 🔹 GET INVENTORY (with filters & pagination)
@@ -47,8 +49,8 @@ export const useInventory = () => {
           page: customParams.page ?? page,
           limit: customParams.limit ?? limit,
 
-          ...(inventoryFilters.search && {
-            search: inventoryFilters.search,
+          ...(debouncedSearch && {
+            search: debouncedSearch,
           }),
 
           ...(inventoryFilters.category && {
@@ -109,7 +111,15 @@ export const useInventory = () => {
         setLoading(false);
       }
     },
-    [page, limit, inventoryFilters, setPagination, showError]
+    [
+      page,
+      limit,
+      debouncedSearch,
+      inventoryFilters.category,
+      inventoryFilters.status,
+      setPagination,
+      showError,
+    ]
   );
 
   // ===============================
